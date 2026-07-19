@@ -46,6 +46,7 @@ public class QuestLineFactory extends EntityFactory<QuestLine, String> {
 
         for (Map.Entry<UUID, IQuestLineEntry> entry : questLine.entrySet()) {
             Quest quest = questFactory.findQuest(entry.getKey());
+            if (quest == null) continue;
             IQuestLineEntry questLineEntry = entry.getValue();
 
             questLineEntity.addQuest(quest);

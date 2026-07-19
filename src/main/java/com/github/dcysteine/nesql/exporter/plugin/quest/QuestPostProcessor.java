@@ -28,6 +28,8 @@ public class QuestPostProcessor extends PluginHelper {
             count++;
 
             Quest quest = questFactory.findQuest(entry.getKey());
+            if (quest == null)
+                continue;
             questFactory.setRequiredQuests(quest, entry.getValue().getRequirements());
 
             if (Logger.intermittentLog(count)) {

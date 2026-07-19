@@ -17,10 +17,7 @@ import com.github.dcysteine.nesql.sql.quest.Quest;
 import com.github.dcysteine.nesql.sql.quest.Reward;
 import com.github.dcysteine.nesql.sql.quest.Task;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class QuestFactory extends EntityFactory<Quest, String> {
     private final ItemFactory itemFactory;
@@ -75,13 +72,10 @@ public class QuestFactory extends EntityFactory<Quest, String> {
         String encodedQuestId = UuidConverter.encodeUuid(questId);
         String id = IdPrefixUtil.QUEST.applyPrefix(encodedQuestId);
         Quest quest = entityManager.find(Quest.class, id);
-        if (quest == null) {
-            throw new IllegalStateException("Could not find quest: " + questId);
-        }
         return quest;
     }
 
     public void setRequiredQuests(Quest quest, Collection<UUID> requiredQuestIds) {
-        requiredQuestIds.stream().map(this::findQuest).forEach(quest::addRequiredQuest);
+        requiredQuestIds.stream().map(this::findQuest).filter(Objects::nonNull).forEach(quest::addRequiredQuest);
     }
 }
