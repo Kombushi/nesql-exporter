@@ -11,6 +11,7 @@ import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
@@ -100,20 +101,20 @@ public class ThaumcraftRecipeProcessor extends PluginHelper {
     private static final int[] componentFillOrder = new int[] {2, 22, 10, 14, 0, 24, 4, 20, 1, 23, 3, 21, 5, 19, 15, 9, 7, 17, 11, 13, 6, 18, 8, 16, 25, 26, 27, 28, 29, 30, 31, 32};
 
     private void processInfusionRecipe(InfusionRecipe recipe) {
-        var output = recipe.getRecipeOutput() instanceof ItemStack ? (ItemStack) recipe.getRecipeOutput() : recipe.getRecipeInput();
+        ItemStack output = recipe.getRecipeOutput() instanceof ItemStack ? (ItemStack) recipe.getRecipeOutput() : recipe.getRecipeInput();
         if (output == null || output.getItem() == null)
             return;
 
         RecipeBuilder builder = new RecipeBuilder(exporter, infusionCrafting);
-        var fakeInputMap = new ItemStack[32];
+        ItemStack[] fakeInputMap = new ItemStack[32];
         fakeInputMap[12] = recipe.getRecipeInput();
 
-        var componentId = 0;
-        for (var itemInput : recipe.getComponents()) {
+        int componentId = 0;
+        for (ItemStack itemInput : recipe.getComponents()) {
             fakeInputMap[componentFillOrder[componentId++]] = itemInput;
         }
 
-        for (var i=0; i<32; i++) {
+        for (int i = 0; i<32; i++) {
             if (fakeInputMap[i] != null) {
                 builder.itemInputsIndex = i;
                 builder.addItemInput(fakeInputMap[i]);
@@ -128,7 +129,7 @@ public class ThaumcraftRecipeProcessor extends PluginHelper {
     {
         if (builder.itemInputsIndex < index)
             builder.itemInputsIndex = index;
-        for (var aspect : list.getAspectsSorted())
+        for (Aspect aspect : list.getAspectsSorted())
         {
             ItemStack iconItemStack = new ItemStack(ModItems.itemAspect, list.getAmount(aspect), 0);
             ItemAspect.setAspects(iconItemStack, new AspectList().add(aspect, 2));

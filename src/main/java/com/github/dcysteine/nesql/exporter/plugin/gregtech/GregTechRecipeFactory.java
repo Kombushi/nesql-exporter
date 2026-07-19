@@ -24,10 +24,7 @@ import lombok.SneakyThrows;
 import net.minecraft.item.ItemStack;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String> {
@@ -128,9 +125,9 @@ public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String>
         Field idField = clazz.getDeclaredField("identifier");
         idField.setAccessible(true);
 
-        var metadata = new ArrayList<GregTechRecipeMetadata>();
-        for (var meta: gregTechRecipe.getMetadataStorage().getEntries()) {
-            var value = meta.getValue();
+        ArrayList<GregTechRecipeMetadata> metadata = new ArrayList<GregTechRecipeMetadata>();
+        for (Map.Entry<RecipeMetadataKey<?>, Object> meta: gregTechRecipe.getMetadataStorage().getEntries()) {
+            Object value = meta.getValue();
             long exportValue;
             if (value instanceof Number)
                 exportValue = ((Number)value).longValue();
@@ -138,7 +135,7 @@ public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String>
                 exportValue = (Boolean) value ? 1 : 0;
             else continue;
 
-            var key = idField.get(meta.getKey());
+            Object key = idField.get(meta.getKey());
             if (key instanceof String)
                 metadata.add(new GregTechRecipeMetadata((String)key, exportValue));
         }
