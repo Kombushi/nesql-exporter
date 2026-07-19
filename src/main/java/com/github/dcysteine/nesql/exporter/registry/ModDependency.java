@@ -22,7 +22,7 @@ public enum ModDependency {
     },
 
     THAUMCRAFT("Thaumcraft"),
-    THAUMCRAFT_NEI("thaumcraftneiplugin"),
+    ASPECT_RECIPE_INDEX("aspectrecipeindex"),
     BETTER_QUESTING("betterquesting"),
     ;
 

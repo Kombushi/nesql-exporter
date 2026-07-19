@@ -1,8 +1,8 @@
 package com.github.dcysteine.nesql.exporter.plugin.thaumcraft;
 
 import codechicken.nei.NEIServerUtils;
-import com.djgiannuzz.thaumcraftneiplugin.ModItems;
-import com.djgiannuzz.thaumcraftneiplugin.items.ItemAspect;
+import com.gtnewhorizons.aspectrecipeindex.ModItems;
+import com.gtnewhorizons.aspectrecipeindex.common.items.ItemAspect;
 import com.github.dcysteine.nesql.exporter.main.Logger;
 import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.PluginHelper;
@@ -131,8 +131,8 @@ public class ThaumcraftRecipeProcessor extends PluginHelper {
             builder.itemInputsIndex = index;
         for (Aspect aspect : list.getAspectsSorted())
         {
-            ItemStack iconItemStack = new ItemStack(ModItems.itemAspect, list.getAmount(aspect), 0);
-            ItemAspect.setAspects(iconItemStack, new AspectList().add(aspect, 2));
+            ItemStack iconItemStack = new ItemStack(ModItems.itemAspect, list.getAmount(aspect), 1);
+            ItemAspect.setAspect(iconItemStack, aspect);
             builder.addItemInput(iconItemStack);
         }
     }

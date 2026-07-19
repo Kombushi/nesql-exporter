@@ -46,7 +46,7 @@ public class PluginRegistry {
         builder.add(
                 RegistryEntry.create(
                         Plugin.THAUMCRAFT, ThaumcraftPluginExporter::new,
-                        ModDependency.THAUMCRAFT, ModDependency.THAUMCRAFT_NEI));
+                        ModDependency.THAUMCRAFT, ModDependency.ASPECT_RECIPE_INDEX));
         builder.add(
                 RegistryEntry.create(
                         Plugin.QUEST, QuestPluginExporter::new, ModDependency.BETTER_QUESTING));

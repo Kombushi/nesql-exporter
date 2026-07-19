@@ -176,8 +176,8 @@ dependencies {
     }
     val thaumcraftVersion: String by project
     implementation("thaumcraft:Thaumcraft:$minecraftVersion-$thaumcraftVersion:dev")
-    val thaumcraftNeiVersion: String by project
-    implementation("curse.maven:thaumcraft-nei-plugin-225095:$thaumcraftNeiVersion")
+    val aspectRecipeIndexVersion: String by project
+    implementation("com.github.GTNewHorizons:AspectRecipeIndex:$aspectRecipeIndexVersion:dev")
 
     val betterQuestingVersion: String by project
     implementation("com.github.GTNewHorizons:BetterQuesting:$betterQuestingVersion:dev")
