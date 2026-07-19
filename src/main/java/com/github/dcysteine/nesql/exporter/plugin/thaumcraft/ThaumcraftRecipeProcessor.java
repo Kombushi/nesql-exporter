@@ -131,7 +131,7 @@ public class ThaumcraftRecipeProcessor extends PluginHelper {
             builder.itemInputsIndex = index;
         for (Aspect aspect : list.getAspectsSorted())
         {
-            ItemStack iconItemStack = new ItemStack(ModItems.itemAspect, list.getAmount(aspect), 1);
+            ItemStack iconItemStack = new ItemStack(ModItems.itemAspect, list.getAmount(aspect), 0);
             ItemAspect.setAspect(iconItemStack, aspect);
             builder.addItemInput(iconItemStack);
         }
