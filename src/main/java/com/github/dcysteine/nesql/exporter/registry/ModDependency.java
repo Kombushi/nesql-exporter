@@ -24,6 +24,7 @@ public enum ModDependency {
     THAUMCRAFT("Thaumcraft"),
     ASPECT_RECIPE_INDEX("aspectrecipeindex"),
     BETTER_QUESTING("betterquesting"),
+    CROPSNH("cropsnh"),
     ;
 
     public final String modId;

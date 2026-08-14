@@ -181,6 +181,9 @@ dependencies {
 
     val betterQuestingVersion: String by project
     implementation("com.github.GTNewHorizons:BetterQuesting:$betterQuestingVersion:dev")
+
+    val cropsNhVersion: String by project
+    implementation("com.github.GTNewHorizons:CropsNH:$cropsNhVersion:dev")
 }
 
 tasks.withType<JavaCompile> {

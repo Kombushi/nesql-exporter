@@ -15,8 +15,11 @@ public enum Plugin {
     AVARITIA("avaritia"),
     GREGTECH("gregtech"),
     GREGTECH_WORLDGEN("gregtech_worldgen"),
+    GREGTECH_RECIPE_MAP("gregtech_recipe_map"),
     THAUMCRAFT("thaumcraft"),
     QUEST("quest"),
+    BLOCK_DROPS("block_drops"),
+    CROPSNH("cropsnh"),
     ;
 
     public static final ImmutableList<String> NAMES;

@@ -27,6 +27,11 @@ public enum IdPrefixUtil {
     GREG_TECH_ORE_VEIN("gtov"),
     GREG_TECH_SMALL_ORE("gtso"),
     GREG_TECH_UNDERGROUND_FLUID("gtuf"),
+    GREG_TECH_RECIPE_MAP("gtrm"),
+
+    BLOCK_DROP("bd"),
+
+    CROPSNH_CROP("cnh"),
 
     ASPECT("tca"),
     ASPECT_ENTRY("tcae"),

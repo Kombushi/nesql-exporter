@@ -5,9 +5,12 @@ import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.avaritia.AvaritiaPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.base.BasePluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.forge.ForgePluginExporter;
+import com.github.dcysteine.nesql.exporter.plugin.cropsnh.CropsNhPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.GregTechPluginExporter;
+import com.github.dcysteine.nesql.exporter.plugin.gregtech.recipemap.GregTechRecipeMapPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.worldgen.GregTechWorldgenPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.minecraft.MinecraftPluginExporter;
+import com.github.dcysteine.nesql.exporter.plugin.minecraft.blockdrops.BlockDropsPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.mobsinfo.MobsInfoPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.nei.NeiPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.quest.QuestPluginExporter;
@@ -48,6 +51,14 @@ public class PluginRegistry {
                 RegistryEntry.create(
                         Plugin.GREGTECH_WORLDGEN, GregTechWorldgenPluginExporter::new,
                         ModDependency.GREGTECH_5));
+        builder.add(
+                RegistryEntry.create(
+                        Plugin.GREGTECH_RECIPE_MAP, GregTechRecipeMapPluginExporter::new,
+                        ModDependency.GREGTECH_5));
+        builder.add(RegistryEntry.create(Plugin.BLOCK_DROPS, BlockDropsPluginExporter::new));
+        builder.add(
+                RegistryEntry.create(
+                        Plugin.CROPSNH, CropsNhPluginExporter::new, ModDependency.CROPSNH));
         builder.add(
                 RegistryEntry.create(
                         Plugin.THAUMCRAFT, ThaumcraftPluginExporter::new,
