@@ -14,6 +14,7 @@ public enum Plugin {
 
     AVARITIA("avaritia"),
     GREGTECH("gregtech"),
+    GREGTECH_WORLDGEN("gregtech_worldgen"),
     THAUMCRAFT("thaumcraft"),
     QUEST("quest"),
     ;

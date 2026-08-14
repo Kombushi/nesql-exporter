@@ -23,6 +23,10 @@ public enum IdPrefixUtil {
     MOB_INFO("mi"),
 
     GREG_TECH_RECIPE("gtr"),
+    GREG_TECH_DIMENSION("gtdim"),
+    GREG_TECH_ORE_VEIN("gtov"),
+    GREG_TECH_SMALL_ORE("gtso"),
+    GREG_TECH_UNDERGROUND_FLUID("gtuf"),
 
     ASPECT("tca"),
     ASPECT_ENTRY("tcae"),

@@ -6,6 +6,7 @@ import com.github.dcysteine.nesql.exporter.plugin.avaritia.AvaritiaPluginExporte
 import com.github.dcysteine.nesql.exporter.plugin.base.BasePluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.forge.ForgePluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.GregTechPluginExporter;
+import com.github.dcysteine.nesql.exporter.plugin.gregtech.worldgen.GregTechWorldgenPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.minecraft.MinecraftPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.mobsinfo.MobsInfoPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.nei.NeiPluginExporter;
@@ -43,6 +44,10 @@ public class PluginRegistry {
         builder.add(
                 RegistryEntry.create(
                         Plugin.GREGTECH, GregTechPluginExporter::new, ModDependency.GREGTECH_5));
+        builder.add(
+                RegistryEntry.create(
+                        Plugin.GREGTECH_WORLDGEN, GregTechWorldgenPluginExporter::new,
+                        ModDependency.GREGTECH_5));
         builder.add(
                 RegistryEntry.create(
                         Plugin.THAUMCRAFT, ThaumcraftPluginExporter::new,
