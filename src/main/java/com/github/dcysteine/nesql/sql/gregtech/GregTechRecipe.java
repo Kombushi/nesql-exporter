@@ -40,6 +40,10 @@ public class GregTechRecipe implements Identifiable<String> {
     @Column(nullable = false)
     private String voltageTier;
 
+    /** GregTech's own NEI category, which separates recycling from real production. */
+    @Column(nullable = false)
+    private String recipeCategory;
+
     private int voltage;
 
     private int amperage;
@@ -72,6 +76,7 @@ public class GregTechRecipe implements Identifiable<String> {
             String id,
             Recipe recipe,
             String voltageTier,
+            String recipeCategory,
             int voltage,
             int amperage,
             int duration,
@@ -85,6 +90,7 @@ public class GregTechRecipe implements Identifiable<String> {
         this.id = id;
         this.recipe = recipe;
         this.voltageTier = voltageTier;
+        this.recipeCategory = recipeCategory;
         this.voltage = voltage;
         this.amperage = amperage;
         this.duration = duration;

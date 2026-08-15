@@ -16,6 +16,7 @@ import com.google.common.base.Joiner;
 import cpw.mods.fml.common.ModContainer;
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.HeatingCoilLevel;
+import gregtech.api.recipe.RecipeCategory;
 import gregtech.api.recipe.RecipeMetadataKey;
 import gregtech.api.util.GTRecipe;
 import gregtech.api.util.GTRecipeConstants;
@@ -55,6 +56,11 @@ public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String>
                 gregTechRecipe.owners.stream()
                         .map(ModContainer::getModId)
                         .collect(Collectors.toCollection(ArrayList::new));
+
+        // GregTech files reverse-crafting under its own categories, which is the only
+        // signal separating melting a door down from smelting ore.
+        RecipeCategory category = gregTechRecipe.getRecipeCategory();
+        String recipeCategory = category == null ? "" : category.unlocalizedName;
 
         int recipeSpecialValue = gregTechRecipe.mSpecialValue;
         List<String> additionalInfo = new ArrayList<>();
@@ -145,6 +151,7 @@ public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String>
                         id,
                         recipe,
                         voltageTier.getName(),
+                        recipeCategory,
                         voltage,
                         GregTechRecipeMap.getAmperage(),
                         gregTechRecipe.mDuration,
