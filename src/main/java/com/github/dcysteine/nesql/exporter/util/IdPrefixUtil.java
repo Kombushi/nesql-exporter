@@ -28,6 +28,9 @@ public enum IdPrefixUtil {
     GREG_TECH_SMALL_ORE("gtso"),
     GREG_TECH_UNDERGROUND_FLUID("gtuf"),
     GREG_TECH_RECIPE_MAP("gtrm"),
+    GREG_TECH_ORE_PREFIX("gtop"),
+    GREG_TECH_ORE_DICT_UNIFICATION("gtodu"),
+    GREG_TECH_UNIFICATION_BLACKLIST("gtub"),
 
     BLOCK_DROP("bd"),
 
