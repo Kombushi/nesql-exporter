@@ -26,13 +26,17 @@ public class GregTechRecipeMapMachine implements Comparable<GregTechRecipeMapMac
 
     private boolean multiblock;
 
+    /** True for steam-powered machines, which run their map's low-tier recipes fuel-fired. */
+    private boolean steam;
+
     /** Needed by Hibernate. */
     protected GregTechRecipeMapMachine() {}
 
-    public GregTechRecipeMapMachine(Item item, Integer tier, boolean multiblock) {
+    public GregTechRecipeMapMachine(Item item, Integer tier, boolean multiblock, boolean steam) {
         this.item = item;
         this.tier = tier;
         this.multiblock = multiblock;
+        this.steam = steam;
     }
 
     @Override

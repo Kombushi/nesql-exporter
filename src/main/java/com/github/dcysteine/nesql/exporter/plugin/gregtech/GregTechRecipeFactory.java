@@ -16,6 +16,7 @@ import com.google.common.base.Joiner;
 import cpw.mods.fml.common.ModContainer;
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.HeatingCoilLevel;
+import gregtech.api.enums.TierEU;
 import gregtech.api.recipe.RecipeCategory;
 import gregtech.api.recipe.RecipeMetadataKey;
 import gregtech.api.util.GTRecipe;
@@ -146,13 +147,15 @@ public class GregTechRecipeFactory extends EntityFactory<GregTechRecipe, String>
                 metadata.add(new GregTechRecipeMetadata((String)key, exportValue));
         }
 
+        // TecTech's wireless sentinel marks the absence of a hatch requirement, not a voltage.
+        Integer exportVoltage = voltage == TierEU.RECIPE_MAX ? null : voltage;
         GregTechRecipe gregTechRecipeEntity =
                 new GregTechRecipe(
                         id,
                         recipe,
                         voltageTier.getName(),
                         recipeCategory,
-                        voltage,
+                        exportVoltage,
                         GregTechRecipeMap.getAmperage(),
                         gregTechRecipe.mDuration,
                         recipeSpecialValue,

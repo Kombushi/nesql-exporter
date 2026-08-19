@@ -8,8 +8,10 @@ import com.github.dcysteine.nesql.sql.gregtech.recipemap.GregTechRecipeMapMachin
 import gregtech.api.GregTechAPI;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.RecipeMapWorkable;
+import gregtech.api.metatileentity.implementations.MTEBasicMachineBronze;
 import gregtech.api.metatileentity.implementations.MTEMultiBlockBase;
 import gregtech.api.metatileentity.implementations.MTETieredMachineBlock;
+import gtPlusPlus.xmod.gregtech.api.metatileentity.implementations.base.MTESteamMultiBlockBase;
 import gregtech.api.recipe.RecipeMap;
 import net.minecraft.item.ItemStack;
 
@@ -64,13 +66,15 @@ public class GregTechRecipeMapProcessor extends PluginHelper {
                 Item item = itemFactory.get(stack);
 
                 boolean multiblock = mte instanceof MTEMultiBlockBase;
+                boolean steam = mte instanceof MTEBasicMachineBronze
+                        || mte instanceof MTESteamMultiBlockBase;
                 Integer tier = null;
                 if (mte instanceof MTETieredMachineBlock) {
                     tier = (int) ((MTETieredMachineBlock) mte).mTier;
                 }
 
                 GregTechRecipeMapMachine machine =
-                        new GregTechRecipeMapMachine(item, tier, multiblock);
+                        new GregTechRecipeMapMachine(item, tier, multiblock, steam);
                 for (RecipeMap<?> recipeMap : recipeMaps) {
                     if (recipeMap == null) {
                         continue;

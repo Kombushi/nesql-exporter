@@ -38,6 +38,9 @@ public class GregTechRecipeMap implements Identifiable<String> {
     /** True if at least one multiblock controller runs this map's recipes. */
     private boolean hasMultiBlock;
 
+    /** True where the map's backend burns fuels for EU rather than crafting outputs. */
+    private boolean isFuel;
+
     @ElementCollection
     @SortNatural
     private SortedSet<GregTechRecipeMapMachine> machines;
@@ -46,11 +49,13 @@ public class GregTechRecipeMap implements Identifiable<String> {
     protected GregTechRecipeMap() {}
 
     public GregTechRecipeMap(
-            String id, String unlocalizedName, String localizedName, int amperage) {
+            String id, String unlocalizedName, String localizedName, int amperage,
+            boolean isFuel) {
         this.id = id;
         this.unlocalizedName = unlocalizedName;
         this.localizedName = localizedName;
         this.amperage = amperage;
+        this.isFuel = isFuel;
 
         machines = new TreeSet<>();
     }

@@ -44,7 +44,8 @@ public class GregTechRecipe implements Identifiable<String> {
     @Column(nullable = false)
     private String recipeCategory;
 
-    private int voltage;
+    /** Null where TecTech stamps its wireless sentinel: star-powered recipes need no hatch. */
+    private Integer voltage;
 
     private int amperage;
 
@@ -77,7 +78,7 @@ public class GregTechRecipe implements Identifiable<String> {
             Recipe recipe,
             String voltageTier,
             String recipeCategory,
-            int voltage,
+            Integer voltage,
             int amperage,
             int duration,
             int recipeSpecialValue,

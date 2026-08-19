@@ -31,6 +31,9 @@ public enum IdPrefixUtil {
     GREG_TECH_ORE_PREFIX("gtop"),
     GREG_TECH_ORE_DICT_UNIFICATION("gtodu"),
     GREG_TECH_UNIFICATION_BLACKLIST("gtub"),
+    GREG_TECH_ITEM_DATA("gtid"),
+    GREG_TECH_CATALYST("gtcat"),
+    ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),
 
