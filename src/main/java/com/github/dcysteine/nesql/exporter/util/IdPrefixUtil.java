@@ -36,6 +36,8 @@ public enum IdPrefixUtil {
     GREG_TECH_GENERATOR("gtgen"),
     GREG_TECH_DYNAMO("gtdyn"),
     GREG_TECH_TURBINE_ROTOR("gtrot"),
+    GREG_TECH_MULTIBLOCK("gtmb"),
+    GREG_TECH_LARGE_BOILER("gtlb"),
     ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),
