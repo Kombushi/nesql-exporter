@@ -9,6 +9,7 @@ import com.github.dcysteine.nesql.exporter.plugin.cropsnh.CropsNhPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.GregTechPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.catalyst.GregTechCatalystPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.itemdata.GregTechItemDataPluginExporter;
+import com.github.dcysteine.nesql.exporter.plugin.gregtech.machineprops.GregTechMachinePropsPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.oredict.GregTechOreDictPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.recipemap.GregTechRecipeMapPluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.gregtech.worldgen.GregTechWorldgenPluginExporter;
@@ -69,6 +70,10 @@ public class PluginRegistry {
         builder.add(
                 RegistryEntry.create(
                         Plugin.GREGTECH_CATALYST, GregTechCatalystPluginExporter::new,
+                        ModDependency.GREGTECH_5));
+        builder.add(
+                RegistryEntry.create(
+                        Plugin.GREGTECH_MACHINE_PROPS, GregTechMachinePropsPluginExporter::new,
                         ModDependency.GREGTECH_5));
         builder.add(RegistryEntry.create(Plugin.BLOCK_DROPS, BlockDropsPluginExporter::new));
         builder.add(

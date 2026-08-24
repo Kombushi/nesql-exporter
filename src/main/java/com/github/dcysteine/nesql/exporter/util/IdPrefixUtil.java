@@ -33,6 +33,9 @@ public enum IdPrefixUtil {
     GREG_TECH_UNIFICATION_BLACKLIST("gtub"),
     GREG_TECH_ITEM_DATA("gtid"),
     GREG_TECH_CATALYST("gtcat"),
+    GREG_TECH_GENERATOR("gtgen"),
+    GREG_TECH_DYNAMO("gtdyn"),
+    GREG_TECH_TURBINE_ROTOR("gtrot"),
     ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),

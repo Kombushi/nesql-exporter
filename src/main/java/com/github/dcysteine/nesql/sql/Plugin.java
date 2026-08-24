@@ -19,6 +19,7 @@ public enum Plugin {
     GREGTECH_ORE_DICT("gregtech_oredict"),
     GREGTECH_ITEM_DATA("gregtech_item_data"),
     GREGTECH_CATALYST("gregtech_catalyst"),
+    GREGTECH_MACHINE_PROPS("gregtech_machine_props"),
     THAUMCRAFT("thaumcraft"),
     QUEST("quest"),
     BLOCK_DROPS("block_drops"),
