@@ -24,7 +24,7 @@ public class GregTechGenerator implements Identifiable<String> {
     private Item item;
 
     /** Fuel-to-EU conversion efficiency in percent; may exceed 100 (naquadah reactors). */
-    private int efficiency;
+    private double efficiency;
 
     /** Output voltage per amp, in EU/t. */
     private long maxEuOutput;
@@ -35,7 +35,7 @@ public class GregTechGenerator implements Identifiable<String> {
     protected GregTechGenerator() {}
 
     public GregTechGenerator(
-            String id, Item item, int efficiency, long maxEuOutput, long amperesOut) {
+            String id, Item item, double efficiency, long maxEuOutput, long amperesOut) {
         this.id = id;
         this.item = item;
         this.efficiency = efficiency;
