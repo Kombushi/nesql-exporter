@@ -42,6 +42,7 @@ public enum IdPrefixUtil {
     GREG_TECH_TREE_FARM_TOOL("gttft"),
     GREG_TECH_COMBUSTION_ENGINE("gteng"),
     GREG_TECH_REACTOR_MODE("gtrmode"),
+    GREG_TECH_CONSTANT("gtconst"),
     ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),

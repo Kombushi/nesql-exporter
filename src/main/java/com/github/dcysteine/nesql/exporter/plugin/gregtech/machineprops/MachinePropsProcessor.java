@@ -5,6 +5,7 @@ import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
 import goodgenerator.main.GGConfigLoader;
 import com.github.dcysteine.nesql.exporter.plugin.PluginHelper;
 import gregtech.api.GregTechAPI;
+import gregtech.api.enums.GTValues;
 import gregtech.api.enums.HeatingCoilLevel;
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
@@ -20,18 +21,24 @@ import gregtech.common.tileentities.machines.multi.MTELargeBoilerBase;
 import gregtech.common.tileentities.machines.multi.MTELargeCombustionEngine;
 import gregtech.common.tileentities.machines.multi.MTELargeNaquadahReactor;
 import gregtech.common.tileentities.machines.multi.MTETreeFarm;
+import gregtech.common.tileentities.machines.multi.xlturbines.MTEXLTurbineBase;
 import gregtech.common.items.IDMetaTool01;
 import gregtech.common.items.MetaGeneratedTool01;
+import kubatech.tileentity.gregtech.multiblock.MTEExtremeEntityCrusher;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MachinePropsProcessor extends PluginHelper {
     private static final Map<IDMetaTool01, String> TURBINE_SIZES = new LinkedHashMap<>();
@@ -54,6 +61,7 @@ public class MachinePropsProcessor extends PluginHelper {
         processTreeFarmTools();
         processEngines();
         processNaquadahReactors();
+        processConstants();
         exporterState.flushEntityManager();
         logger.info("Finished processing GregTech machine properties!");
     }
@@ -73,6 +81,49 @@ public class MachinePropsProcessor extends PluginHelper {
         }
 
         logger.info("Processed {} combustion engines", engines);
+    }
+
+    // Deliberately without a catch: a missing member or tooltip line must fail the export.
+    private void processConstants() {
+        ConstantFactory factory = new ConstantFactory(exporter);
+
+        factory.get(
+                "STEAM_PER_WATER", GTValues.STEAM_PER_WATER, "GTValues.STEAM_PER_WATER");
+        try {
+            Field slots = MTEXLTurbineBase.class.getDeclaredField("TURBINE_SLOTS");
+            slots.setAccessible(true);
+            factory.get(
+                    "XL_TURBINE_SLOTS", slots.getInt(null), "MTEXLTurbineBase.TURBINE_SLOTS");
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("XL turbine reflection failed", e);
+        }
+        factory.get(
+                "EEC_XP_JUICE_PER_OPERATION", readEecXpJuice(),
+                "MTEExtremeEntityCrusher tooltip");
+
+        logger.info("Processed GregTech constants");
+    }
+
+    private long readEecXpJuice() {
+        Pattern pattern = Pattern.compile("Produces (\\d+) Liquid XP per operation");
+        for (IMetaTileEntity mte : GregTechAPI.METATILEENTITIES) {
+            if (!(mte instanceof MTEExtremeEntityCrusher)) {
+                continue;
+            }
+
+            @SuppressWarnings("unchecked")
+            List<String> tooltip =
+                    (List<String>) mte.getStackForm(1)
+                            .getTooltip(Minecraft.getMinecraft().thePlayer, true);
+            for (String line : tooltip) {
+                Matcher matcher = pattern.matcher(line.replaceAll("§.", ""));
+                if (matcher.find()) {
+                    return Long.parseLong(matcher.group(1));
+                }
+            }
+            throw new IllegalStateException("EEC tooltip no longer states its Liquid XP yield");
+        }
+        throw new IllegalStateException("No Extreme Entity Crusher registered");
     }
 
     // Deliberately without a per-machine catch: a reflection miss must fail the export.
