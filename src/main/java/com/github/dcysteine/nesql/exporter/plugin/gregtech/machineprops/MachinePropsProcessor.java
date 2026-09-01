@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.exporter.plugin.gregtech.machineprops;
 
+import codechicken.nei.ItemList;
 import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.PluginHelper;
 import gregtech.api.GregTechAPI;
@@ -14,6 +15,7 @@ import gregtech.api.util.TurbineStatCalculator;
 import gregtech.common.blocks.BlockCasings5;
 import gregtech.common.tileentities.machines.multi.MTELargeBoiler;
 import gregtech.common.tileentities.machines.multi.MTELargeBoilerBase;
+import gregtech.common.tileentities.machines.multi.MTETreeFarm;
 import gregtech.common.items.IDMetaTool01;
 import gregtech.common.items.MetaGeneratedTool01;
 import net.minecraft.item.ItemStack;
@@ -41,8 +43,33 @@ public class MachinePropsProcessor extends PluginHelper {
         processMachines();
         processTurbineRotors();
         processCoils();
+        processTreeFarmTools();
         exporterState.flushEntityManager();
         logger.info("Finished processing GregTech machine properties!");
+    }
+
+    private void processTreeFarmTools() {
+        TreeFarmToolFactory factory = new TreeFarmToolFactory(exporter);
+
+        int tools = 0;
+        for (ItemStack stack : ItemList.items) {
+            for (MTETreeFarm.Mode mode : MTETreeFarm.Mode.values()) {
+                try {
+                    int multiplier = MTETreeFarm.getToolMultiplier(stack, mode);
+                    if (multiplier <= 0) {
+                        continue;
+                    }
+
+                    factory.get(stack, mode, multiplier);
+                    tools++;
+                } catch (Exception e) {
+                    // Probing an arbitrary item as a tool may throw; such items are not tools.
+                    logger.debug("Skipping tree farm tool probe: " + stack, e);
+                }
+            }
+        }
+
+        logger.info("Processed {} tree farm tool modes", tools);
     }
 
     private void processCoils() {

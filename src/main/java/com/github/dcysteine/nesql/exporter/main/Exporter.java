@@ -69,7 +69,10 @@ public final class Exporter {
             } catch (InterruptedException wakeUp) {}
         }
 
-        if (ConfigOptions.ENABLED_PLUGINS.get().contains(Plugin.NEI.getName())
+        // The machine props plugin probes the NEI item list for tree farm tools.
+        if ((ConfigOptions.ENABLED_PLUGINS.get().contains(Plugin.NEI.getName())
+                        || ConfigOptions.ENABLED_PLUGINS.get()
+                                .contains(Plugin.GREGTECH_MACHINE_PROPS.getName()))
                 && ItemList.items.isEmpty()) {
             Logger.chatMessage(
                     EnumChatFormatting.RED + "NEI item list is empty! Please load it, and retry.");
