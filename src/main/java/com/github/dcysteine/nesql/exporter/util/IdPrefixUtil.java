@@ -48,6 +48,9 @@ public enum IdPrefixUtil {
     BLOCK_DROP("bd"),
 
     CROPSNH_CROP("cnh"),
+    CROPSNH_FERTILIZER_ITEM("cnhfi"),
+    CROPSNH_FERTILIZER_FLUID("cnhff"),
+    CROPSNH_FARM_COMPONENT("cnhfc"),
 
     ASPECT("tca"),
     ASPECT_ENTRY("tcae"),
