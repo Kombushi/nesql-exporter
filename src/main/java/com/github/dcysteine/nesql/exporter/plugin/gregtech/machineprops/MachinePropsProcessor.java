@@ -2,6 +2,7 @@ package com.github.dcysteine.nesql.exporter.plugin.gregtech.machineprops;
 
 import codechicken.nei.ItemList;
 import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
+import goodgenerator.main.GGConfigLoader;
 import com.github.dcysteine.nesql.exporter.plugin.PluginHelper;
 import gregtech.api.GregTechAPI;
 import gregtech.api.enums.HeatingCoilLevel;
@@ -17,13 +18,18 @@ import gregtech.common.tileentities.machines.multi.MTEExtremeCombustionEngine;
 import gregtech.common.tileentities.machines.multi.MTELargeBoiler;
 import gregtech.common.tileentities.machines.multi.MTELargeBoilerBase;
 import gregtech.common.tileentities.machines.multi.MTELargeCombustionEngine;
+import gregtech.common.tileentities.machines.multi.MTELargeNaquadahReactor;
 import gregtech.common.tileentities.machines.multi.MTETreeFarm;
 import gregtech.common.items.IDMetaTool01;
 import gregtech.common.items.MetaGeneratedTool01;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,6 +53,7 @@ public class MachinePropsProcessor extends PluginHelper {
         processCoils();
         processTreeFarmTools();
         processEngines();
+        processNaquadahReactors();
         exporterState.flushEntityManager();
         logger.info("Finished processing GregTech machine properties!");
     }
@@ -66,6 +73,47 @@ public class MachinePropsProcessor extends PluginHelper {
         }
 
         logger.info("Processed {} combustion engines", engines);
+    }
+
+    // Deliberately without a per-machine catch: a reflection miss must fail the export.
+    private void processNaquadahReactors() {
+        ReactorModeFactory factory = new ReactorModeFactory(exporter);
+
+        int reactors = 0;
+        for (int metaId = 0; metaId < GregTechAPI.METATILEENTITIES.length; metaId++) {
+            IMetaTileEntity mte = GregTechAPI.METATILEENTITIES[metaId];
+            if (!(mte instanceof MTELargeNaquadahReactor)) {
+                continue;
+            }
+
+            ItemStack machineStack = mte.getStackForm(1);
+            for (Pair<FluidStack, Integer> pair : invokeFluidPairList("getExcitedLiquid")) {
+                factory.get(metaId, machineStack, "EXCITED", pair.getKey(), pair.getValue());
+            }
+            for (Pair<FluidStack, Integer> pair : invokeFluidPairList("getCoolant")) {
+                factory.get(metaId, machineStack, "COOLANT", pair.getKey(), pair.getValue());
+            }
+            if (GGConfigLoader.LiquidAirConsumptionPerSecond > 0) {
+                factory.get(
+                        metaId, machineStack, "UPKEEP",
+                        Materials.LiquidAir.getFluid(GGConfigLoader.LiquidAirConsumptionPerSecond),
+                        null);
+            }
+            reactors++;
+        }
+
+        logger.info("Processed {} naquadah reactors", reactors);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Pair<FluidStack, Integer>> invokeFluidPairList(String methodName) {
+        try {
+            Method method = MTELargeNaquadahReactor.class.getDeclaredMethod(methodName);
+            method.setAccessible(true);
+            return (List<Pair<FluidStack, Integer>>) method.invoke(null);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Naquadah reactor reflection failed: " + methodName, e);
+        }
     }
 
     private void processTreeFarmTools() {

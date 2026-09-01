@@ -41,6 +41,7 @@ public enum IdPrefixUtil {
     GREG_TECH_COIL("gtcoil"),
     GREG_TECH_TREE_FARM_TOOL("gttft"),
     GREG_TECH_COMBUSTION_ENGINE("gteng"),
+    GREG_TECH_REACTOR_MODE("gtrmode"),
     ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),
