@@ -8,6 +8,7 @@ import com.github.dcysteine.nesql.sql.gregtech.recipemap.GregTechRecipeMapMachin
 import gregtech.api.GregTechAPI;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.RecipeMapWorkable;
+import gregtech.api.metatileentity.implementations.MTEBasicMachine;
 import gregtech.api.metatileentity.implementations.MTEBasicMachineBronze;
 import gregtech.api.metatileentity.implementations.MTEMultiBlockBase;
 import gregtech.api.metatileentity.implementations.MTETieredMachineBlock;
@@ -72,9 +73,15 @@ public class GregTechRecipeMapProcessor extends PluginHelper {
                 if (mte instanceof MTETieredMachineBlock) {
                     tier = (int) ((MTETieredMachineBlock) mte).mTier;
                 }
+                Integer outputSlots = null;
+                if (mte instanceof MTEBasicMachine) {
+                    outputSlots = ((MTEBasicMachine) mte).mOutputItems.length;
+                }
 
                 GregTechRecipeMapMachine machine =
-                        new GregTechRecipeMapMachine(item, tier, multiblock, steam);
+                        new GregTechRecipeMapMachine(
+                                item, tier, multiblock, steam,
+                                mte.getClass().getName(), outputSlots);
                 for (RecipeMap<?> recipeMap : recipeMaps) {
                     if (recipeMap == null) {
                         continue;

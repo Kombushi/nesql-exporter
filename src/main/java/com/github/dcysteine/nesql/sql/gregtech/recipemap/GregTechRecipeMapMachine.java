@@ -29,14 +29,26 @@ public class GregTechRecipeMapMachine implements Comparable<GregTechRecipeMapMac
     /** True for steam-powered machines, which run their map's low-tier recipes fuel-fired. */
     private boolean steam;
 
+    /** Fully-qualified Java class of the machine, the stable key for machine-kind matching. */
+    @Column(nullable = false)
+    private String machineClass;
+
+    /** Item output slot count of basic machines; null for machines without fixed output slots. */
+    @Column
+    private Integer outputSlots;
+
     /** Needed by Hibernate. */
     protected GregTechRecipeMapMachine() {}
 
-    public GregTechRecipeMapMachine(Item item, Integer tier, boolean multiblock, boolean steam) {
+    public GregTechRecipeMapMachine(
+            Item item, Integer tier, boolean multiblock, boolean steam,
+            String machineClass, Integer outputSlots) {
         this.item = item;
         this.tier = tier;
         this.multiblock = multiblock;
         this.steam = steam;
+        this.machineClass = machineClass;
+        this.outputSlots = outputSlots;
     }
 
     @Override
