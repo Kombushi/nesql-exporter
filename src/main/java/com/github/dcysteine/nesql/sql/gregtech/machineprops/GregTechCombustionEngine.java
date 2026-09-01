@@ -35,6 +35,9 @@ public class GregTechCombustionEngine implements Identifiable<String> {
     @ManyToOne
     private Fluid boosterFluid;
 
+    @ManyToOne
+    private Fluid lubricantFluid;
+
     /** Fuel draw multiplier while boosted. */
     private int boostFuelFactor;
 
@@ -51,12 +54,14 @@ public class GregTechCombustionEngine implements Identifiable<String> {
     protected GregTechCombustionEngine() {}
 
     public GregTechCombustionEngine(
-            String id, Item item, int nominalOutput, Fluid boosterFluid, int boostFuelFactor,
-            int additiveFactor, int efficiencyUnboosted, int efficiencyBoosted) {
+            String id, Item item, int nominalOutput, Fluid boosterFluid, Fluid lubricantFluid,
+            int boostFuelFactor, int additiveFactor, int efficiencyUnboosted,
+            int efficiencyBoosted) {
         this.id = id;
         this.item = item;
         this.nominalOutput = nominalOutput;
         this.boosterFluid = boosterFluid;
+        this.lubricantFluid = lubricantFluid;
         this.boostFuelFactor = boostFuelFactor;
         this.additiveFactor = additiveFactor;
         this.efficiencyUnboosted = efficiencyUnboosted;

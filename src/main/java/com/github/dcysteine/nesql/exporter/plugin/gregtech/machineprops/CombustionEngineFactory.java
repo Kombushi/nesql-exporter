@@ -44,6 +44,12 @@ public class CombustionEngineFactory extends EntityFactory<GregTechCombustionEng
             }
             Fluid boosterFluid = fluidFactory.get(boosterStack);
 
+            FluidStack lubricantStack = Materials.Lubricant.getFluid(1);
+            if (lubricantStack == null) {
+                throw new IllegalStateException("Lubricant material has no fluid");
+            }
+            Fluid lubricantFluid = fluidFactory.get(lubricantStack);
+
             Field boostEu = findField(engine.getClass(), "boostEu");
             boostEu.setBoolean(engine, false);
             int efficiencyUnboosted = engine.getMaxEfficiency(null);
@@ -55,8 +61,9 @@ public class CombustionEngineFactory extends EntityFactory<GregTechCombustionEng
                     IdPrefixUtil.GREG_TECH_COMBUSTION_ENGINE.applyPrefix(String.valueOf(metaId));
             GregTechCombustionEngine entity =
                     new GregTechCombustionEngine(
-                            id, item, nominalOutput, boosterFluid, boostFuelFactor,
-                            additiveFactor, efficiencyUnboosted, efficiencyBoosted);
+                            id, item, nominalOutput, boosterFluid, lubricantFluid,
+                            boostFuelFactor, additiveFactor, efficiencyUnboosted,
+                            efficiencyBoosted);
             return findOrPersist(GregTechCombustionEngine.class, entity);
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(
