@@ -81,7 +81,13 @@ public class CropsNhProcessor extends PluginHelper {
                 continue;
             }
             for (int meta = 0; meta < 16; meta++) {
-                Integer tier = block.getTier(meta);
+                Integer tier;
+                try {
+                    tier = block.getTier(meta);
+                } catch (RuntimeException noSuchVariant) {
+                    // Metas beyond the block's variants may throw; they are not variants.
+                    continue;
+                }
                 if (tier == null) {
                     continue;
                 }
