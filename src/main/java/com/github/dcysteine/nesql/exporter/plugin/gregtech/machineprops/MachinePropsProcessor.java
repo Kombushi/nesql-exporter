@@ -11,8 +11,11 @@ import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.items.MetaGeneratedTool;
 import gregtech.api.metatileentity.implementations.MTEBasicGenerator;
+import gregtech.api.metatileentity.implementations.MTEBasicMachineBronze;
 import gregtech.api.metatileentity.implementations.MTEHatchDynamo;
 import gregtech.api.metatileentity.implementations.MTEMultiBlockBase;
+import gregtech.api.metatileentity.implementations.MTETieredMachineBlock;
+import gtPlusPlus.xmod.gregtech.api.metatileentity.implementations.base.MTESteamMultiBlockBase;
 import gregtech.api.util.TurbineStatCalculator;
 import gregtech.common.blocks.BlockCasings5;
 import gregtech.common.tileentities.machines.multi.MTEExtremeCombustionEngine;
@@ -55,6 +58,7 @@ public class MachinePropsProcessor extends PluginHelper {
     }
 
     public void process() {
+        processAllMachines();
         processMachines();
         processTurbineRotors();
         processCoils();
@@ -207,6 +211,41 @@ public class MachinePropsProcessor extends PluginHelper {
         }
 
         logger.info("Processed {} heating coils", coils);
+    }
+
+    private void processAllMachines() {
+        MachineFactory factory = new MachineFactory(exporter);
+
+        int machines = 0;
+        for (int metaId = 0; metaId < GregTechAPI.METATILEENTITIES.length; metaId++) {
+            IMetaTileEntity mte = GregTechAPI.METATILEENTITIES[metaId];
+            if (mte == null) {
+                continue;
+            }
+
+            try {
+                ItemStack stack = mte.getStackForm(1);
+                if (stack == null || stack.getItem() == null) {
+                    continue;
+                }
+
+                Integer tier = null;
+                if (mte instanceof MTETieredMachineBlock) {
+                    tier = (int) ((MTETieredMachineBlock) mte).mTier;
+                }
+                boolean multiblock = mte instanceof MTEMultiBlockBase;
+                boolean steam = mte instanceof MTEBasicMachineBronze
+                        || mte instanceof MTESteamMultiBlockBase;
+
+                factory.get(metaId, stack, mte.getClass().getName(), tier, multiblock, steam);
+                machines++;
+            } catch (Exception e) {
+                // Some prototype machines throw when queried outside a live world; skip them.
+                logger.warn("Skipping machine that failed class lookup: " + metaId, e);
+            }
+        }
+
+        logger.info("Processed {} machine classes", machines);
     }
 
     private void processMachines() {
