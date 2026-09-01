@@ -13,8 +13,10 @@ import gregtech.api.metatileentity.implementations.MTEHatchDynamo;
 import gregtech.api.metatileentity.implementations.MTEMultiBlockBase;
 import gregtech.api.util.TurbineStatCalculator;
 import gregtech.common.blocks.BlockCasings5;
+import gregtech.common.tileentities.machines.multi.MTEExtremeCombustionEngine;
 import gregtech.common.tileentities.machines.multi.MTELargeBoiler;
 import gregtech.common.tileentities.machines.multi.MTELargeBoilerBase;
+import gregtech.common.tileentities.machines.multi.MTELargeCombustionEngine;
 import gregtech.common.tileentities.machines.multi.MTETreeFarm;
 import gregtech.common.items.IDMetaTool01;
 import gregtech.common.items.MetaGeneratedTool01;
@@ -44,8 +46,26 @@ public class MachinePropsProcessor extends PluginHelper {
         processTurbineRotors();
         processCoils();
         processTreeFarmTools();
+        processEngines();
         exporterState.flushEntityManager();
         logger.info("Finished processing GregTech machine properties!");
+    }
+
+    // Deliberately without a per-machine catch: a reflection miss must fail the export.
+    private void processEngines() {
+        CombustionEngineFactory factory = new CombustionEngineFactory(exporter);
+
+        int engines = 0;
+        for (int metaId = 0; metaId < GregTechAPI.METATILEENTITIES.length; metaId++) {
+            IMetaTileEntity mte = GregTechAPI.METATILEENTITIES[metaId];
+            if (mte instanceof MTELargeCombustionEngine
+                    || mte instanceof MTEExtremeCombustionEngine) {
+                factory.get(metaId, (MTEMultiBlockBase) mte);
+                engines++;
+            }
+        }
+
+        logger.info("Processed {} combustion engines", engines);
     }
 
     private void processTreeFarmTools() {
