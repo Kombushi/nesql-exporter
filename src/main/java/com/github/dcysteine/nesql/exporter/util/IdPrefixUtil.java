@@ -38,6 +38,7 @@ public enum IdPrefixUtil {
     GREG_TECH_TURBINE_ROTOR("gtrot"),
     GREG_TECH_MULTIBLOCK("gtmb"),
     GREG_TECH_LARGE_BOILER("gtlb"),
+    GREG_TECH_COIL("gtcoil"),
     ITEM_CONTAINER("ic"),
 
     BLOCK_DROP("bd"),

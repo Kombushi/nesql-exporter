@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.exporter.plugin.gregtech.machineprops;
 import com.github.dcysteine.nesql.exporter.plugin.PluginExporter;
 import com.github.dcysteine.nesql.exporter.plugin.PluginHelper;
 import gregtech.api.GregTechAPI;
+import gregtech.api.enums.HeatingCoilLevel;
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.items.MetaGeneratedTool;
@@ -10,14 +11,17 @@ import gregtech.api.metatileentity.implementations.MTEBasicGenerator;
 import gregtech.api.metatileentity.implementations.MTEHatchDynamo;
 import gregtech.api.metatileentity.implementations.MTEMultiBlockBase;
 import gregtech.api.util.TurbineStatCalculator;
+import gregtech.common.blocks.BlockCasings5;
 import gregtech.common.tileentities.machines.multi.MTELargeBoiler;
 import gregtech.common.tileentities.machines.multi.MTELargeBoilerBase;
 import gregtech.common.items.IDMetaTool01;
 import gregtech.common.items.MetaGeneratedTool01;
 import net.minecraft.item.ItemStack;
 
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MachinePropsProcessor extends PluginHelper {
     private static final Map<IDMetaTool01, String> TURBINE_SIZES = new LinkedHashMap<>();
@@ -36,8 +40,27 @@ public class MachinePropsProcessor extends PluginHelper {
     public void process() {
         processMachines();
         processTurbineRotors();
+        processCoils();
         exporterState.flushEntityManager();
         logger.info("Finished processing GregTech machine properties!");
+    }
+
+    private void processCoils() {
+        CoilFactory factory = new CoilFactory(exporter);
+
+        int coils = 0;
+        Set<HeatingCoilLevel> seen = EnumSet.of(HeatingCoilLevel.None);
+        for (int meta = 0; meta < 16; meta++) {
+            HeatingCoilLevel level = BlockCasings5.getCoilHeatFromDamage(meta);
+            if (!seen.add(level)) {
+                continue;
+            }
+
+            factory.get(meta, new ItemStack(GregTechAPI.sBlockCasings5, 1, meta), level);
+            coils++;
+        }
+
+        logger.info("Processed {} heating coils", coils);
     }
 
     private void processMachines() {
